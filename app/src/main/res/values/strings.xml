@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidShagSample_3_1</string>
+    <string name="months">Список\tмесяцев</string>
+    <string name="two_weeks">Дни\tнедели</string>
+    <string name="show">Показать</string>
+    <string name="date_picker">Date Picker</string>
+</resources>
