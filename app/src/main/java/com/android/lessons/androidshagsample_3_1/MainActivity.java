@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -23,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView lvMonth = (ListView) this.findViewById(R.id.lvMonth);
-        String[] arrMonth = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+        String[] arrMonth = {"По умолчанию", "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
         ArrayAdapter<String> lvAdapter1 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, arrMonth);
         lvMonth.setAdapter(lvAdapter1);
+        lvMonth.setSelection(0);
         ListView lvDaysOfweek = (ListView) this.findViewById(R.id.lvDaysOfWeek);
         String[] arrDaysOfWeek = {"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
 //        ArrayAdapter<String> lvAdapter2 = new ArrayAdapter<>(this, R.layout.my_listview_item, arrDaysOfWeek);
-        ArrayAdapter<String> lvAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrDaysOfWeek);
+        ArrayAdapter<String> lvAdapter2 = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_multiple_choice, arrDaysOfWeek);
         lvDaysOfweek.setAdapter(lvAdapter2);
 
         lvMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -50,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
             makeAllert();
         } else {
             Toast.makeText(this, "Ничего	не	выбрано", Toast.LENGTH_SHORT).show();
+            new CustomDialog(this).show();
         }
     }
 
     private void makeAllert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Holo_Light_Dialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View alertView1 = getLayoutInflater().inflate(R.layout.edit_text_alert, null);
+        builder.setView(alertView1);
         builder.setMessage("2 * 2 = 4?");
         builder.setTitle("Ответьте	на	вопрос");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
@@ -68,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Не	верно!", Toast.LENGTH_SHORT).show();
             }
         });
+        builder.setCancelable(true);
+
+        View alertView2 = getLayoutInflater().inflate(R.layout.edit_text_alert, null);
+        builder.setView(alertView2);
         AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
         dialog.show();
     }
 
